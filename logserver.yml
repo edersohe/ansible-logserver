@@ -24,8 +24,8 @@
 #   roles:
 #    - sensu
 
-# - hosts: elasticsearch
-#   user: vagrant
-#   sudo: yes
-#   roles:
-#    - elasticsearch
+- hosts: elasticsearch
+  user: vagrant
+  sudo: yes
+  roles:
+   - elasticsearch
