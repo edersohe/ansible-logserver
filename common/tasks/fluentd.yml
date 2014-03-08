@@ -1,0 +1,8 @@
+---
+
+- name: Add Fluentd repository key
+  apt_key: url=http://packages.treasure-data.com/debian/RPM-GPG-KEY-td-agent state=present
+- name: Add Fluentd repository
+  apt_repository: repo='deb http://packages.treasure-data.com/precise/ precise contrib' state=present update_cache=yes
+- name: Install Fluentd
+  apt: pkg=td-agent state=latest update_cache=yes

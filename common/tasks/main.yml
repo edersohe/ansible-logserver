@@ -1,0 +1,7 @@
+---
+
+- name: Install common libraries
+  apt: pkg=python-pycurl,openssl state=latest update_cache=yes
+
+- include: sensu.yml
+- include: fluentd.yml
