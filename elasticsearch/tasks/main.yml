@@ -6,4 +6,5 @@
   apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/1.0/debian stable main' state=present update_cache=yes
 - name: Install ElasticSearch
   apt: pkg=elasticsearch state=latest update_cache=yes
-  notify: restart elasticsearch
+- name: Ensure ElasticSearch is running
+  service: name=elasticsearch state=started
