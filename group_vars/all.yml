@@ -1,0 +1,4 @@
+---
+
+local_files_path: "{{ lookup('env','PWD') }}/local/files"
+ssl_certs_path: "{{ local_files_path }}/ssl_certs"

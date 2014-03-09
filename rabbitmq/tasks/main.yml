@@ -6,5 +6,11 @@
   apt_repository: repo='deb http://www.rabbitmq.com/debian/ testing main' state=present update_cache=yes
 - name: Install RabbitMQ
   apt: pkg=rabbitmq-server state=latest update_cache=yes
+- name: Put ssl files
+  action: copy src={{ ssl_certs_path }}{{ item }} dest=/etc/rabbitmq/ssl/ owner=root group=root mode=0644
+  with_items:
+    - /sensu_ca/cacert.pem
+    - /server/cert.pem
+    - /server/key.pem
 - name: Ensure RabbitMQ is running
   service: name=rabbitmq-server state=started
