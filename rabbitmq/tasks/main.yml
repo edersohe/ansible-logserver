@@ -16,14 +16,36 @@
 - name: Put configuration file
   copy: src=rabbitmq.config dest=/etc/rabbitmq/ owner=root group=root mode=0644
   notify: restart rabbitmq
+- name: Verify vhost sensu
+  shell: 'rabbitmqctl list_vhosts | grep /sensu'
+  register: exist_rabbitmq_vhost_sensu
+  ignore_errors: true
+  changed_when: false
+- name: Create vhost sensu
+  action: command rabbitmqctl add_vhost /sensu
+  when: exist_rabbitmq_vhost_sensu|failed
+  notify: restart rabbitmq
+- name: Verify user sensu
+  shell: 'rabbitmqctl list_users | grep sensu'
+  register: exist_rabbitmq_user_sensu
+  ignore_errors: true
+  changed_when: false
+- name: Create user sensu
+  action: command rabbitmqctl add_user sensu {{ rabbitmq_sensu_password }}
+  when: exist_rabbitmq_user_sensu|failed
+  notify: restart rabbitmq
+- name: Create permissions for user sensu
+  action: command rabbitmqctl set_permissions -p /sensu sensu ".*" ".*" ".*"
+  when: exist_rabbitmq_user_sensu|failed
+  notify: restart rabbitmq
 - name: Verify management plugin
   shell: 'rabbitmq-plugins list -E | grep rabbitmq_management'
-  register: rabbitmq_management
+  register: exist_plugin_rabbitmq_management
   ignore_errors: true
   changed_when: false
 - name: Enable management plugin
   action: command rabbitmq-plugins enable rabbitmq_management
-  when: rabbitmq_management|failed
+  when: exist_plugin_rabbitmq_management|failed
   notify: restart rabbitmq
 - name: Ensure RabbitMQ is running
   service: name=rabbitmq-server state=started
