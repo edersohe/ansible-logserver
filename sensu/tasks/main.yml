@@ -1,0 +1,28 @@
+---
+
+- name: Add plugins
+  shell: >
+    wget https://github.com/sensu/sensu-community-plugins/archive/master.tar.gz -O - |
+    tar -xzvf - --transform='s,sensu-community-plugins-master/plugins/,,'
+    -C /etc/sensu/plugins/ sensu-community-plugins-master/plugins/
+- name: Change plugins perms
+  file: path=/etc/sensu/plugins  recurse=yes state=directory owner=root group=root mode=0755
+- name: Put config files
+  action: copy src={{ item }} dest=/etc/sensu/conf.d/ owner=root group=root mode=0644
+  with_items:
+    - check_cron.json
+    - client.json
+    - redis.json
+    - rabbitmq.json
+- name: Put ssl files
+  action: copy src={{ ssl_certs_path }}{{ item }} dest=/etc/sensu/ssl/ owner=root group=root mode=0644
+  with_items:
+    - /client/cert.pem
+    - /client/key.pem
+- name: Restart sensu-server
+  action: service name=sensu-{{ item }} state=restarted sleep=2
+  with_items:
+    - server
+    - api
+    - dashboard
+    - client

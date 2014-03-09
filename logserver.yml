@@ -23,11 +23,11 @@
   roles:
    - redis
 
-# - hosts: sensu
-#   user: vagrant
-#   sudo: yes
-#   roles:
-#    - sensu
+- hosts: sensu
+  user: vagrant
+  sudo: yes
+  roles:
+   - sensu
 
 - hosts: elasticsearch
   user: vagrant
