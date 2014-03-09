@@ -12,5 +12,18 @@
     - /sensu_ca/cacert.pem
     - /server/cert.pem
     - /server/key.pem
+  notify: restart rabbitmq
+- name: Put configuration file
+  copy: src=rabbitmq.config dest=/etc/rabbitmq/ owner=root group=root mode=0644
+  notify: restart rabbitmq
+- name: Verify management plugin
+  shell: 'rabbitmq-plugins list -E | grep rabbitmq_management'
+  register: rabbitmq_management
+  ignore_errors: true
+  changed_when: false
+- name: Enable management plugin
+  action: command rabbitmq-plugins enable rabbitmq_management
+  when: rabbitmq_management|failed
+  notify: restart rabbitmq
 - name: Ensure RabbitMQ is running
   service: name=rabbitmq-server state=started
