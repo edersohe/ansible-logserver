@@ -11,11 +11,11 @@
   roles:
    - common
 
-# - hosts: rabbitmq
-#   user: vagrant
-#   sudo: yes
-#   roles:
-#    - rabbitmq
+- hosts: rabbitmq
+  user: vagrant
+  sudo: yes
+  roles:
+   - rabbitmq
 
 - hosts: redis
   user: vagrant
