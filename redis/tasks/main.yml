@@ -4,5 +4,5 @@
   apt_repository: repo='ppa:rwky/redis' state=present update_cache=yes
 - name: Install Redis
   apt: pkg=redis-server state=latest update_cache=yes
-- name: ensure apache is running
+- name: Ensure Redis is running
   service: name=redis-server state=started
