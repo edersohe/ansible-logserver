@@ -17,11 +17,11 @@
 #   roles:
 #    - rabbitmq
 
-# - hosts: redis
-#   user: vagrant
-#   sudo: yes
-#   roles:
-#    - redis
+- hosts: redis
+  user: vagrant
+  sudo: yes
+  roles:
+   - redis
 
 # - hosts: sensu
 #   user: vagrant
