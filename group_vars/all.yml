@@ -1,5 +1,5 @@
 ---
 
-local_files_path: "{{ lookup('env','PWD') }}/local/files"
+local_files_path: "{{ lookup('env','PWD') }}/roles/local/files"
 ssl_certs_path: "{{ local_files_path }}/ssl_certs"
 rabbitmq_sensu_password: "MY_PASSWORD"

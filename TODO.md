@@ -8,3 +8,4 @@
 + send emails when errors logs
 * install kibana
 * add checks redis, rabbitmq, process, system, sensu, security
+* enable by default start sensu

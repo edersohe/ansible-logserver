@@ -1,3 +1,3 @@
 .vagrant/
-local/files/ssl_certs/
+roles/local/files/ssl_certs/
 
