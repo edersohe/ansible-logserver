@@ -9,3 +9,4 @@
 * install kibana
 * add checks redis, rabbitmq, process, system, sensu, security
 * enable by default start sensu
+* set EMBEDDED_RUBY=true into /etc/default/sensu
