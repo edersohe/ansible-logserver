@@ -7,14 +7,14 @@
 - name: Install RabbitMQ
   apt: pkg=rabbitmq-server state=latest update_cache=yes
 - name: Put ssl files
-  action: copy src={{ ssl_certs_path }}{{ item }} dest=/etc/rabbitmq/ssl/ owner=root group=root mode=0644
+  action: copy src={{ ssl_certs_path }}{{ item }} dest=/etc/rabbitmq/ssl/ owner=root group=root mode=0644 backup=yes
   with_items:
     - /sensu_ca/cacert.pem
     - /server/cert.pem
     - /server/key.pem
   notify: restart rabbitmq
 - name: Put configuration file
-  copy: src=rabbitmq.config dest=/etc/rabbitmq/ owner=root group=root mode=0644
+  copy: src=rabbitmq.config dest=/etc/rabbitmq/ owner=root group=root mode=0644 backup=yes
   notify: restart rabbitmq
 - name: Verify vhost sensu
   shell: 'rabbitmqctl list_vhosts | grep /sensu'

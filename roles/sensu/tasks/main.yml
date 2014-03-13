@@ -1,21 +1,24 @@
 ---
 
 - name: Add plugins
-  shell: >
-    wget https://github.com/sensu/sensu-community-plugins/archive/master.tar.gz -O - |
+  action: >
+    shell wget https://github.com/sensu/sensu-community-plugins/archive/master.tar.gz -O - |
     tar -xzvf - --transform='s,sensu-community-plugins-master/plugins/,,'
     -C /etc/sensu/plugins/ sensu-community-plugins-master/plugins/
+    creates=/etc/sensu/plugins/sensu-community-plugins-master
+  register: exist_sensu_plugins
 - name: Change plugins perms
-  file: path=/etc/sensu/plugins  recurse=yes state=directory owner=root group=root mode=0755
+  action: file path=/etc/sensu/plugins recurse=yes state=directory owner=root group=root mode=0755
+  when: exist_sensu_plugins
 - name: Put config files
-  action: copy src={{ item }} dest=/etc/sensu/conf.d/ owner=root group=root mode=0644
+  action: copy src={{ item }} dest=/etc/sensu/conf.d/ owner=root group=root mode=0644 backup=yes
   with_items:
     - check_cron.json
     - client.json
     - redis.json
     - rabbitmq.json
 - name: Put ssl files
-  action: copy src={{ ssl_certs_path }}{{ item }} dest=/etc/sensu/ssl/ owner=root group=root mode=0644
+  action: copy src={{ ssl_certs_path }}{{ item }} dest=/etc/sensu/ssl/ owner=root group=root mode=0644 backup=yes
   with_items:
     - /client/cert.pem
     - /client/key.pem

@@ -10,3 +10,6 @@
 * add checks redis, rabbitmq, process, system, sensu, security
 * enable by default start sensu
 * set EMBEDDED_RUBY=true into /etc/default/sensu
+* reduce times to do apt update_cache=yes
+* check update sensu plugins
+* create submodules for each role
